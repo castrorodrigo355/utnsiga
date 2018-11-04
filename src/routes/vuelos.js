@@ -11,6 +11,8 @@ router.post("/", (req, res) => {
             err ? res.json(err) : res.json(usuario)
             usuario.vuelos.push(unVuelo)
             usuario.save()
+                .then(result => res.status(201).json(result))
+                .catch(err => res.status(503).json(err));
     })
 })
 
@@ -23,8 +25,9 @@ router.get("/", (req, res) => {
 
 // OBTENER EL VUELO "id" DE UN USUARIO
 router.get("/:idVuelo", (req, res) => {
+
     User.findOne({_id: req.params.id}, (err, usuario) => {
-        if(err) res.json(err)
+        err ? res.json(err):
         unVuelo = usuario.vuelos.find(unVuelo => unVuelo._id == req.params.idVuelo)
         if(unVuelo){
             res.json(unVuelo)

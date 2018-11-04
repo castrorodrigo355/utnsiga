@@ -1,7 +1,7 @@
 const express = require("express");
 const User = require("../models/usuarioModel")
 const router = express.Router();
-//const routerVuelos = require("./vuelos")
+const routerVuelos = require("./vuelos")
 
 // CREAR UN USUARIO
 router.post("/", (req, res) => {
@@ -12,9 +12,15 @@ router.post("/", (req, res) => {
         .catch(err => res.status(503).json(err));
 })
 
-// OBTENER LA LISTA DE USUARIOS
+// // OBTENER LA LISTA DE USUARIOS
+// router.get("/", (req, res) => {
+//     User.findOne({'nombre': 'rodrigo'}, 'celular')
+//         .then(usuario => res.json (usuario));
+// })
 router.get("/", (req, res) => {
-    User.find({}).then(users => res.json (users));
+    User.find()
+        .then(users => res.json (users))
+        .catch(err => res.json(err))
 })
 
 // OBTENER UN DETERMINADO USUARIO MEDIANTE UN "id"
@@ -40,12 +46,14 @@ router.delete("/:id", (req, res) => {
 router.put("/:id", (req, res) => {
     User.findByIdAndUpdate(req.params.id, {$set: {"nombre": req.body.nombre, 
                                                   "apellido": req.body.apellido,
-                                                  "celular": req.body.celular
+                                                  "celular": req.body.celular,
+                                                  "dni": req.body.dni,
+                                                  "edad": req.body.edad
                                                   }}, {new: true}, (err, doc) => {
         err ? res.json(err) : res.json(doc)
     })
 })
 
-// router.use("/:id/vuelos", routerVuelos)
+router.use("/:id/vuelos", routerVuelos)
 
 module.exports = router;
