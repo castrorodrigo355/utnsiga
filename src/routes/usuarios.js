@@ -12,11 +12,7 @@ router.post("/", (req, res) => {
         .catch(err => res.status(503).json(err));
 })
 
-// // OBTENER LA LISTA DE USUARIOS
-// router.get("/", (req, res) => {
-//     User.findOne({'nombre': 'rodrigo'}, 'celular')
-//         .then(usuario => res.json (usuario));
-// })
+// OBTENER LA LISTA DE USUARIOS COMPLETA
 router.get("/", (req, res) => {
     User.find()
         .then(users => res.json (users))
@@ -54,6 +50,6 @@ router.put("/:id", (req, res) => {
     })
 })
 
-router.use("/:id/vuelos", routerVuelos)
+// router.use("/:id/vuelos", routerVuelos)
 
 module.exports = router;

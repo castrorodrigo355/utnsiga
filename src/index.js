@@ -15,6 +15,9 @@ const routerUsuarios = require("./routes/usuarios");
 // app.use("/usuarios", authValidator, routerUsuarios);
 app.use("/usuarios", routerUsuarios);
 
+const routerVuelos = require("./routes/vuelos");
+app.use("/vuelos", routerVuelos);
+
 app.get("/*", (req, res) => {
     res.end("Archivo no encontrado");
 });

@@ -1,6 +1,13 @@
 const {Schema, mongoose} = require("../database/database")
-var vuelo = new Schema({ destino: String, 
-                         duracion: String })
-var Vuelo = mongoose.model("vuelos", vuelo)
+const User = require("./usuarioModel")
+
+var vuelo = new Schema({ 
+        partida: String,
+        destino: String, 
+        duracion: Number,
+        usuario: { type: Schema.ObjectId, ref: User }
+        })
+
+var Vuelo = mongoose.model("Vuelo", vuelo)
 
 module.exports = Vuelo
