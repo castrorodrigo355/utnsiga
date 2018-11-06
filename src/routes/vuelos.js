@@ -32,7 +32,7 @@ router.get("/:id", (req, res) => {
         });
 })
 
-// OBTENER EL USUARIO DUEŃO
+// OBTENER EL USUARIO DUEŃO DE UN VUELO MEDIANTE UN "idVuelo"
 router.get("/api/:idVuelo", (req, res) => {
     Vuelo.findOne({_id : req.params.idVuelo}, (err, vuelo) => {
         err ? res.json(err) : 
@@ -42,8 +42,34 @@ router.get("/api/:idVuelo", (req, res) => {
     })
 })
 
-// OBTENER EL USUARIO DUEŃO DE UN VUELO "id"
+// OBTENER LOS VUELOS DE UN USUARIO MEDIANTE UN "idUsuario"
+router.get("/api2/:idUsuario", (req, res) => {
+    User.findById(req.params.idUsuario, (err, user) => {
+        err ? res.json(err) : 
+        Vuelo.find({usuario : user._id}, (error, vuelos) => {
+            error ? res.json(error) : res.json(vuelos)
+        })
+    })
+})
 
+// ---------------------------------------------------------
+router.get("/api3/:idUsuario", (req, res) => {
+    Vuelo.find({usuario : req.params.idUsuario}, (err, vuelo) => {
+        err ? res.json(err) :
+        User.findOne({_id : req.params.idUsuario}, (error, usuario) => {
+            if(error){
+                res.json(error)
+            }else{
+                miUsuario = new Object()
+                miUsuario.nombre = usuario.nombre
+                miUsuario.apellido = usuario.apellido
+                miUsuario.celular = usuario.celular
+                miUsuario.vuelos = vuelo
+                res.json(miUsuario)
+            }
+        })
+    })
+})
 
 // // ELIMINAR EL VUELO "id" DE UNA USUARIO
 // router.delete("/:idVuelo", (req, res) => {
